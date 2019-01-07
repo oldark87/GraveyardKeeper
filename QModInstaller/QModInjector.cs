@@ -7,7 +7,7 @@ namespace QModInstaller
 {
     public class QModInjector
     {
-        private string subnauticaDirectory;
+        private string graveyardKeeperDirectory;
         private string managedDirectory;
         private string installerFilename = @"QModInstaller.dll";
         private string mainFilename = @"\Assembly-CSharp.dll";
@@ -16,10 +16,10 @@ namespace QModInstaller
 
         public QModInjector(string dir, string managedDir = null)
         {
-            subnauticaDirectory = dir;
+            graveyardKeeperDirectory = dir;
 			if (managedDir == null)
 			{
-				managedDirectory = Path.Combine(subnauticaDirectory, @"Subnautica_Data\Managed");
+				managedDirectory = Path.Combine(graveyardKeeperDirectory, @"Graveyard Keeper_Data\Managed");
 			}
 			else
 			{
@@ -64,8 +64,8 @@ namespace QModInstaller
             // save changes under original filename
             game.Write(mainFilename);
 
-            if (!Directory.Exists(subnauticaDirectory + @"\QMods"))
-                Directory.CreateDirectory(subnauticaDirectory + @"\QMods");
+            if (!Directory.Exists(graveyardKeeperDirectory + @"\QMods"))
+                Directory.CreateDirectory(graveyardKeeperDirectory + @"\QMods");
 
             return true;
         }
