@@ -30,14 +30,14 @@ namespace QModManager
                 }
             }
 
-            //string SubnauticaDirectory = @"C:\Program Files (x86)\Steam\steamapps\common\Subnautica";
-            string SubnauticaDirectory = Path.Combine(Environment.CurrentDirectory, @"..\..");
+            //string GraveyardKeeperDirectory = @"C:\Program Files (x86)\Steam\steamapps\common\Graveyard Keeper";
+            string GraveyardKeeperDirectory = Path.Combine(Environment.CurrentDirectory, @"..\..");
             string ManagedDirectory = Environment.CurrentDirectory;
 
-            if (parsedArgs.Keys.Contains("SubnauticaDirectory"))
-                SubnauticaDirectory = parsedArgs["SubnauticaDirectory"];
+            if (parsedArgs.Keys.Contains("GraveyardKeeperDirectory"))
+                GraveyardKeeperDirectory = parsedArgs["GraveyardKeeperDirectory"];
 
-            QModInjector injector = new QModInjector(SubnauticaDirectory, ManagedDirectory);
+            QModInjector injector = new QModInjector(GraveyardKeeperDirectory, ManagedDirectory);
 
             bool isInjected = injector.IsPatcherInjected();
             if (forceInstall)
