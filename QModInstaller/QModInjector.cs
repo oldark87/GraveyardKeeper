@@ -59,7 +59,7 @@ namespace QModInstaller
             var method = type.Methods.First(x => x.Name == "Awake");
 
             // inject
-            method.Body.GetILProcessor().InsertBefore(method.Body.Instructions[0], Instruction.Create(OpCodes.Call, method.Module.Import(patchMethod)));
+            method.Body.GetILProcessor().InsertBefore(method.Body.Instructions[0], Instruction.Create(OpCodes.Call, method.Module.ImportReference(patchMethod)));
 
             // save changes under original filename
             game.Write(mainFilename);
