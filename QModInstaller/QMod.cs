@@ -38,8 +38,6 @@ namespace QModInstaller
             }
             catch(Exception e)
             {
-                Logger.WriteLog("YOLO 6\n");
-
                 Console.WriteLine("QMOD ERR: mod.json deserialization failed!");
                 Console.WriteLine(e.Message);
                 return null;

@@ -17,9 +17,7 @@ namespace QModInstaller
         public QModInjector(string dir, string managedDir = null)
         {
             graveyardKeeperDirectory = dir;
-            Logger.WriteLog(managedDir);
             Logger.WriteLog("DEBUG: In QModInjector Constructor");
-            Logger.WriteLog(dir);
             Logger.WriteLog("Graveyard Keeper directory: " + managedDir);
 
             if (managedDir == null)
@@ -142,8 +140,6 @@ namespace QModInstaller
                     return true;
                 }
             }
-            //gameLib.Dispose();
-            Logger.WriteLog("DEBUG: Is patched? " + patched);
             return patched;
         }
     }

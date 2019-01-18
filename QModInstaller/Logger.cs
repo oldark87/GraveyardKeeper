@@ -1,18 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
+﻿using System.IO;
 
 namespace QModInstaller
 {
     public static class Logger
     {
+        private static string logFile;
 
         public static void WriteLog(string msg)
         {
             using (System.IO.StreamWriter file =
-            new System.IO.StreamWriter(@"C:\Users\oldar\Desktop\testfolder\output_log.txt", true))
+            new System.IO.StreamWriter(logFile, true))
             {
                 file.WriteLine(msg);
             }
@@ -20,7 +17,8 @@ namespace QModInstaller
 
         public static void StartNewLog(string location)
         {
-            File.WriteAllText(@location, "Starting Log");
+            logFile = location;
+            File.WriteAllText(logFile, "Starting Log");
         }
     }
 }

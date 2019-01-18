@@ -31,13 +31,12 @@ namespace QModManager
             }
 
             string GraveyardKeeperDirectory = @"C:\Program Files (x86)\Steam\steamapps\common\Graveyard Keeper";
-            //string GraveyardKeeperDirectory = Path.Combine(Environment.CurrentDirectory, @"..\..");
             string ManagedDirectory = Path.Combine(GraveyardKeeperDirectory, @"\Graveyard Keeper_Data\Managed");
 
             if (parsedArgs.Keys.Contains("GraveyardKeeperDirectory"))
                 GraveyardKeeperDirectory = parsedArgs["GraveyardKeeperDirectory"];
 
-            Logger.StartNewLog(@"C:\Users\oldar\Desktop\testfolder\output_log.txt");
+            Logger.StartNewLog(Path.Combine(GraveyardKeeperDirectory, @"\QMods\output_log.txt"));
             Logger.WriteLog("\n" + DateTime.Now + "\n");
 
             Logger.WriteLog("DEBUG: Instantiated QModInjector");
