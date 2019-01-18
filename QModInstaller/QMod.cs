@@ -1,4 +1,5 @@
-﻿using Oculus.Newtonsoft.Json;
+﻿//using Newtonsoft.Json;
+using Oculus.Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -37,6 +38,8 @@ namespace QModInstaller
             }
             catch(Exception e)
             {
+                Logger.WriteLog("YOLO 6\n");
+
                 Console.WriteLine("QMOD ERR: mod.json deserialization failed!");
                 Console.WriteLine(e.Message);
                 return null;

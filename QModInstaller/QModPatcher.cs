@@ -1,4 +1,5 @@
-﻿using Oculus.Newtonsoft.Json;
+﻿//using Newtonsoft.Json;
+using Oculus.Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -15,6 +16,7 @@ namespace QModInstaller
 
         public static void Patch()
         {
+            Logger.WriteLog("IN THE PATCHER CLASS");
             AppDomain.CurrentDomain.AssemblyResolve += (sender, args) =>
             {
                 var allDlls = new DirectoryInfo(qModBaseDir).GetFiles("*.dll", SearchOption.AllDirectories);
@@ -36,6 +38,8 @@ namespace QModInstaller
 
             if (!Directory.Exists(qModBaseDir))
             {
+                Logger.WriteLog("YOLO 4\n");
+
                 Console.WriteLine("QMOD ERR: QMod directory was not found");
                 Directory.CreateDirectory(qModBaseDir);
                 Console.WriteLine("QMOD INFO: Created QMod directory at {0}", qModBaseDir);
@@ -119,6 +123,8 @@ namespace QModInstaller
 
         private static QMod LoadMod(QMod mod)
         {
+            Logger.WriteLog("YOLO 5\n");
+
             if (mod == null) return null;
 
             if (string.IsNullOrEmpty(mod.EntryMethod))
