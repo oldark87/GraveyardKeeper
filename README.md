@@ -7,18 +7,18 @@ ___
 
 ### Note to developers
 
-To support your mod for the QMods system, you need to learn how `mod.json` is implemented (or will be, once complete). The critical keys are:  
+To support your mod for the QMods system, you need to learn how `mod.json` is implemented. The critical keys are:  
 
 ```
 {
-  "Id":"snhardcoreplus.mod",
-  "DisplayName":"Subnautica Hardcore Plus",
-  "Author":"Qwiso",
+  "Id":"energyMod",
+  "DisplayName":"Graveyard Keeper Infinite Energy",
+  "Author":"Oldark",
   "Version":"1.0.0",
   "Requires":[],
   "Enable":true,
-  "AssemblyName":"SNHardcorePlus.dll",
-  "EntryMethod":"SNHardcorePlus.QPatch.Patch",
+  "AssemblyName":"InfiniteEnergy.dll",
+  "EntryMethod":"InfiniteEnergy.MainPatcher.Patch",
   "Config":{}
 }
 ```
