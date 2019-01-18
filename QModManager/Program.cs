@@ -36,13 +36,10 @@ namespace QModManager
             if (parsedArgs.Keys.Contains("GraveyardKeeperDirectory"))
                 GraveyardKeeperDirectory = parsedArgs["GraveyardKeeperDirectory"];
 
-            Logger.StartNewLog(Path.Combine(GraveyardKeeperDirectory, @"\QMods\output_log.txt"));
+            Logger.StartNewLog();
             Logger.WriteLog("\n" + DateTime.Now + "\n");
 
-            Logger.WriteLog("DEBUG: Instantiated QModInjector");
             QModInjector injector = new QModInjector(GraveyardKeeperDirectory);
-
-            Logger.WriteLog("DEBUG: Finished constructing QModInjector");
 
             bool isInjected = injector.IsPatcherInjected();
             if (forceInstall)

@@ -17,13 +17,10 @@ namespace QModInstaller
         public QModInjector(string dir, string managedDir = null)
         {
             graveyardKeeperDirectory = dir;
-            Logger.WriteLog("DEBUG: In QModInjector Constructor");
-            Logger.WriteLog("Graveyard Keeper directory: " + managedDir);
 
             if (managedDir == null)
 			{
 				managedDirectory = Path.Combine(graveyardKeeperDirectory, @"Graveyard Keeper_Data\Managed");
-                Logger.WriteLog("Null managed: " + managedDirectory);
 			}
 			else
 			{
@@ -36,7 +33,6 @@ namespace QModInstaller
 
         public bool IsPatcherInjected()
         {
-            Logger.WriteLog("DEBUG: QModInjector.IsPatcherInjected");
             try
             {
                 return IsInjected();
@@ -53,13 +49,10 @@ namespace QModInstaller
         public bool Inject()
         {
             if (IsInjected()) return false;
-            Logger.WriteLog("DEBUG: Injector.Inject");
 
             // read dll
-            Logger.WriteLog("DEBUG: Reading in game assembly");
             var gameLib = AssemblyDefinition.ReadAssembly(mainFilename);
 
-            Logger.WriteLog("DEBUG: Deleting old backup");
             // delete old backups
             if (File.Exists(backupFilename))
                 File.Delete(backupFilename);
@@ -70,18 +63,14 @@ namespace QModInstaller
 
             File.Copy(mainFilename, backupFilename);
 
-            Logger.WriteLog("DEBUG: Reading in mod assembly");
             // load patcher module
             var modLib = AssemblyDefinition.ReadAssembly(installerFilename);
             var patchMethod = modLib.MainModule.GetType("QModInstaller.QModPatcher").Methods.Single(x => x.Name == "Patch");
-            Logger.WriteLog("DEBUG: Targetting the injection method - MainMenuGUI.Open");
             // target the injection method
             var type = gameLib.MainModule.GetType("MainMenuGUI");
             var method = type.Methods.First(x => x.Name == "Open");
-            Logger.WriteLog("DEBUG: Beginning Injection");
             // inject
             method.Body.GetILProcessor().InsertBefore(method.Body.Instructions[0], Instruction.Create(OpCodes.Call, method.Module.Import(patchMethod)));
-            Logger.WriteLog("DEBUG: Attempting to write the assembly changes");
 
             // save changes under original filename
             try
@@ -93,7 +82,6 @@ namespace QModInstaller
 
                 Logger.WriteLog("ERROR: " + e.ToString());
             }
-            Logger.WriteLog("DEBUG: Creating QMods dir if it's been deleted.");
             if (!Directory.Exists(graveyardKeeperDirectory + @"\QMods"))
                 Directory.CreateDirectory(graveyardKeeperDirectory + @"\QMods");
 
@@ -121,9 +109,7 @@ namespace QModInstaller
 
         private bool IsInjected()
         {
-            Logger.WriteLog("DEBUG: QModInjector.isInjected");
-            Logger.WriteLog("DEBUG: Reading main assembly file " + mainFilename);
-           
+
             var gameLib = AssemblyDefinition.ReadAssembly(mainFilename);
             var type = gameLib.MainModule.GetType("MainMenuGUI");
 

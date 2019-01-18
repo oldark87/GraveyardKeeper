@@ -4,7 +4,7 @@ namespace QModInstaller
 {
     public static class Logger
     {
-        private static string logFile;
+        private static string logFile = @"C:\Program Files (x86)\Steam\steamapps\common\Graveyard Keeper\output_log.txt";
 
         public static void WriteLog(string msg)
         {
@@ -15,10 +15,9 @@ namespace QModInstaller
             }
         }
 
-        public static void StartNewLog(string location)
+        public static void StartNewLog()
         {
-            logFile = location;
-            File.WriteAllText(logFile, "Starting Log");
+            File.WriteAllText(logFile, "Starting Log\n");
         }
     }
 }
