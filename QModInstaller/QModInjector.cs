@@ -17,12 +17,15 @@ namespace QModInstaller
         public QModInjector(string dir, string managedDir = null)
         {
             graveyardKeeperDirectory = dir;
+            Logger.WriteLog(managedDir);
             Logger.WriteLog("DEBUG: In QModInjector Constructor");
-            Logger.WriteLog("Graveyard Keeper diretory: " + managedDir);
+            Logger.WriteLog(dir);
+            Logger.WriteLog("Graveyard Keeper directory: " + managedDir);
 
             if (managedDir == null)
 			{
 				managedDirectory = Path.Combine(graveyardKeeperDirectory, @"Graveyard Keeper_Data\Managed");
+                Logger.WriteLog("Null managed: " + managedDirectory);
 			}
 			else
 			{
@@ -36,18 +39,27 @@ namespace QModInstaller
         public bool IsPatcherInjected()
         {
             Logger.WriteLog("DEBUG: QModInjector.IsPatcherInjected");
-            return isInjected();
+            try
+            {
+                return IsInjected();
+            }
+            catch(Exception e)
+            {
+                Logger.WriteLog(e.ToString());
+            }
+            return false;
+
         }
 
 
         public bool Inject()
         {
-            if (isInjected()) return false;
+            if (IsInjected()) return false;
             Logger.WriteLog("DEBUG: Injector.Inject");
 
             // read dll
             Logger.WriteLog("DEBUG: Reading in game assembly");
-            var gameLib = AssemblyDefinition.ReadAssembly(mainFilename, new ReaderParameters { ReadWrite = true });
+            var gameLib = AssemblyDefinition.ReadAssembly(mainFilename);
 
             Logger.WriteLog("DEBUG: Deleting old backup");
             // delete old backups
@@ -70,13 +82,13 @@ namespace QModInstaller
             var method = type.Methods.First(x => x.Name == "Open");
             Logger.WriteLog("DEBUG: Beginning Injection");
             // inject
-            method.Body.GetILProcessor().InsertBefore(method.Body.Instructions[0], Instruction.Create(OpCodes.Call, method.Module.ImportReference(patchMethod)));
+            method.Body.GetILProcessor().InsertBefore(method.Body.Instructions[0], Instruction.Create(OpCodes.Call, method.Module.Import(patchMethod)));
             Logger.WriteLog("DEBUG: Attempting to write the assembly changes");
 
             // save changes under original filename
             try
             {
-                gameLib.Write();
+                gameLib.Write(mainFilename);
             }
             catch (Exception e)
             {
@@ -109,7 +121,7 @@ namespace QModInstaller
         }
 
 
-        private bool isInjected()
+        private bool IsInjected()
         {
             Logger.WriteLog("DEBUG: QModInjector.isInjected");
             Logger.WriteLog("DEBUG: Reading main assembly file " + mainFilename);
@@ -117,26 +129,6 @@ namespace QModInstaller
             var gameLib = AssemblyDefinition.ReadAssembly(mainFilename);
             var type = gameLib.MainModule.GetType("MainMenuGUI");
 
-           /* foreach (TypeDefinition types in gameLib.MainModule.Types)
-            {
-                //Writes the full name of a type
-                Logger.WriteLog(types.FullName);
-
-                if (types.Name == "AILerp")
-                {
-                    foreach(MethodDefinition methods in types.Methods)
-                    {
-                        if(methods.Name == "MyGUI")
-                        {
-                            //Logger.WriteLog(methods.Name);
-                            var instructions = methods.Body.Instructions;
-                            foreach(var instruction in instructions){
-                                //Logger.WriteLog(instruction.ToString());
-                            }
-                        }                         
-                    }
-                }
-            }*/
             var method = type.Methods.First(x => x.Name == "Open");
             
             var installer = AssemblyDefinition.ReadAssembly(installerFilename);
@@ -150,7 +142,7 @@ namespace QModInstaller
                     return true;
                 }
             }
-            gameLib.Dispose();
+            //gameLib.Dispose();
             Logger.WriteLog("DEBUG: Is patched? " + patched);
             return patched;
         }
