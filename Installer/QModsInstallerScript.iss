@@ -48,6 +48,7 @@ Source: "QModManager\Mono.Cecil.dll"; DestDir: "{app}\Graveyard Keeper_Data\Mana
 Source: "QModManager\Newtonsoft.Json.dll"; DestDir: "{app}\Graveyard Keeper_Data\Managed"; Flags: ignoreversion
 Source: "QModManager\QModInstaller.dll"; DestDir: "{app}\Graveyard Keeper_Data\Managed"; Flags: ignoreversion
 Source: "QModManager\QModManager.exe"; DestDir: "{app}\Graveyard Keeper_Data\Managed"; Flags: ignoreversion
+Source: "QModManager\QModManagerConfig.txt"; DestDir: "{app}\Graveyard Keeper_Data\Managed"; Flags: ignoreversion
 
 [Run]
 Filename: "{app}\Graveyard Keeper_Data\Managed\QModManager.exe"; Parameters: "-i"

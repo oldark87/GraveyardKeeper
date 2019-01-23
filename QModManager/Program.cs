@@ -31,30 +31,47 @@ namespace QModManager
                         forceUninstall = true;
                 }
             }
+            
+            string config = @"QModManagerConfig.txt";
+            string GraveyardKeeperDirectory = "";
 
-            string steamPath = "";
-
+            /* Check the config file for alternate installation location - make this nicer later*/
             try
             {
-                using (RegistryKey key = Registry.LocalMachine.OpenSubKey("SOFTWARE\\WOW6432Node\\Valve\\Steam"))
+                System.IO.StreamReader file = new System.IO.StreamReader(config);
+                string line = file.ReadLine();
+                Console.WriteLine(line);
+                GraveyardKeeperDirectory = line;
+            }
+            catch(Exception e)
+            {
+                Console.WriteLine(e.ToString());
+            }
+
+            if (GraveyardKeeperDirectory == "" || GraveyardKeeperDirectory == "default")
+            {
+                string steamPath = "";
+                try
                 {
-                    if (key != null)
+                    using (RegistryKey key = Registry.LocalMachine.OpenSubKey("SOFTWARE\\WOW6432Node\\Valve\\Steam"))
                     {
-                        Object o = key.GetValue("InstallPath");
-                        if (o != null)
+                        if (key != null)
                         {
-                            steamPath = o as String;
+                            Object o = key.GetValue("InstallPath");
+                            if (o != null)
+                            {
+                                steamPath = o as String;
+                            }
                         }
                     }
                 }
-            }
-            catch (Exception ex)  
-            {
-                Console.WriteLine("ERROR accessing registry key for steam path: " + ex);
-            }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("ERROR accessing registry key for steam path: " + ex);
+                }
 
-            string GraveyardKeeperDirectory = steamPath + @"\steamapps\common\Graveyard Keeper";
-
+                GraveyardKeeperDirectory = steamPath + @"\steamapps\common\Graveyard Keeper";
+            }
             Logger.StartNewLog(GraveyardKeeperDirectory);
             Logger.WriteLog("\n" + DateTime.Now + "\n");
 

@@ -1,0 +1,6 @@
+default
+
+Replace the line above that says 'default' with your full path to the Graveyard Keeper directory.
+
+Sample:
+C:\Program Files (x86)\Steam\steamapps\common\Graveyard Keeper
