@@ -1,22 +1,30 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 
 namespace QModInstaller
 {
     public static class Logger
     {
-        private static string logFile = @"C:\Program Files (x86)\Steam\steamapps\common\Graveyard Keeper\output_log.txt";
+        private static string logFile = "";
 
         public static void WriteLog(string msg)
         {
-            using (System.IO.StreamWriter file =
-            new System.IO.StreamWriter(logFile, true))
+            if (logFile != ""){
+                using (System.IO.StreamWriter file =
+                new System.IO.StreamWriter(logFile, true))
+                {
+                    file.WriteLine(msg);
+                }
+            }
+            else
             {
-                file.WriteLine(msg);
+                Console.WriteLine("Log file not initialized properly");
             }
         }
 
-        public static void StartNewLog()
+        public static void StartNewLog(string gykPath)
         {
+            logFile = gykPath + @"\output_log.txt";
             File.WriteAllText(logFile, "Starting Log\n");
         }
     }

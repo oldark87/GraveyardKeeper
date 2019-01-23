@@ -1,4 +1,5 @@
-﻿using QModInstaller;
+﻿using Microsoft.Win32;
+using QModInstaller;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -8,6 +9,7 @@ namespace QModManager
 {
     class Program
     {
+
         static void Main(string[] args)
         {
             var parsedArgs = new Dictionary<string, string>();
@@ -30,14 +32,36 @@ namespace QModManager
                 }
             }
 
-            string GraveyardKeeperDirectory = @"C:\Program Files (x86)\Steam\steamapps\common\Graveyard Keeper";
+            string steamPath = "";
+
+            try
+            {
+                using (RegistryKey key = Registry.LocalMachine.OpenSubKey("SOFTWARE\\WOW6432Node\\Valve\\Steam"))
+                {
+                    if (key != null)
+                    {
+                        Object o = key.GetValue("InstallPath");
+                        if (o != null)
+                        {
+                            steamPath = o as String;
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)  
+            {
+                Console.WriteLine("ERROR accessing registry key for steam path: " + ex);
+            }
+
+            string GraveyardKeeperDirectory = steamPath + @"\steamapps\common\Graveyard Keeper";
+
+            Logger.StartNewLog(GraveyardKeeperDirectory);
+            Logger.WriteLog("\n" + DateTime.Now + "\n");
+
             string ManagedDirectory = Path.Combine(GraveyardKeeperDirectory, @"\Graveyard Keeper_Data\Managed");
 
             if (parsedArgs.Keys.Contains("GraveyardKeeperDirectory"))
                 GraveyardKeeperDirectory = parsedArgs["GraveyardKeeperDirectory"];
-
-            Logger.StartNewLog();
-            Logger.WriteLog("\n" + DateTime.Now + "\n");
 
             QModInjector injector = new QModInjector(GraveyardKeeperDirectory);
 
