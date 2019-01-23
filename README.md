@@ -2,7 +2,7 @@
 
 File and details available at 
 
-TBD
+https://www.nexusmods.com/graveyardkeeper/mods/1
 ___
 
 ### Note to developers
