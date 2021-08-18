@@ -1,4 +1,4 @@
-﻿using Oculus.Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -119,6 +119,7 @@ namespace QModInstaller
 
         private static QMod LoadMod(QMod mod)
         {
+            Console.WriteLine("QMOD: Loading mod " + mod.DisplayName);
             if (mod == null) return null;
 
             if (string.IsNullOrEmpty(mod.EntryMethod))
@@ -155,7 +156,7 @@ namespace QModInstaller
                     return null;
                 }
             }
-
+            Console.WriteLine("QMOD: Finished loading mod " + mod.DisplayName);
             return mod;
         }
     }
